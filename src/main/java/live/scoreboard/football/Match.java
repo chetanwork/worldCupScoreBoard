@@ -11,4 +11,14 @@ public class Match {
         this.awayTeam = awayTeam;
     }
 
+    public FootballTeam getHomeTeam() {
+        return homeTeam;
+    }
+
+    public FootballTeam getAwayTeam() {
+        return awayTeam;
+    }
+
+
+
 }

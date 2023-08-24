@@ -1,5 +1,7 @@
 package live.scoreboard.football;
 
+import java.util.List;
+
 public interface ScoreBoard {
 
     void emptyScoreBoard();
@@ -9,4 +11,6 @@ public interface ScoreBoard {
     void shouldRemoveMatch();
 
     void shouldUpdateMatch();
+
+    List<Match> getMatches();
 }

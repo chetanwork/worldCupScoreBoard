@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ScoreBoardImpl implements ScoreBoard {
 
-    private final List<Match> matches = new ArrayList<>();
+    private final List<Match> matches = new ArrayList();
 
     @Override
     public void emptyScoreBoard() {
@@ -29,5 +29,9 @@ public class ScoreBoardImpl implements ScoreBoard {
     @Override
     public void shouldUpdateMatch() {
 
+    }
+
+    public List<Match> getMatches() {
+        return matches;
     }
 }
