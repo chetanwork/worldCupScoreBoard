@@ -19,7 +19,7 @@ public class ScoreBoardTest {
         FootballTeam homeTeam = new FootballTeam();
         FootballTeam awayTeam = new FootballTeam();
         scoreBoard = new ScoreBoardImpl();
-        scoreBoard.shouldAddMatch();
+        scoreBoard.shouldAddMatch(homeTeam, awayTeam);
     }
 
     @Test

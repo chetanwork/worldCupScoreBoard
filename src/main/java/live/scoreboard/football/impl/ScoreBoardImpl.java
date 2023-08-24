@@ -1,5 +1,6 @@
 package live.scoreboard.football.impl;
 
+import live.scoreboard.football.FootballTeam;
 import live.scoreboard.football.Match;
 import live.scoreboard.football.ScoreBoard;
 
@@ -16,8 +17,8 @@ public class ScoreBoardImpl implements ScoreBoard {
     }
 
     @Override
-    public void shouldAddMatch() {
-        matches.add(new Match());
+    public void shouldAddMatch(FootballTeam homeTeam, FootballTeam awayTeam) {
+        matches.add(new Match(homeTeam, awayTeam));
     }
 
     @Override

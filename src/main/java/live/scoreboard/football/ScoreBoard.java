@@ -4,7 +4,7 @@ public interface ScoreBoard {
 
     void emptyScoreBoard();
 
-    void shouldAddMatch();
+    void shouldAddMatch(FootballTeam homeTeam, FootballTeam awayTeam);
 
     void shouldRemoveMatch();
 
