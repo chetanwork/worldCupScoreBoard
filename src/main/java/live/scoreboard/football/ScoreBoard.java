@@ -1,19 +1,12 @@
 package live.scoreboard.football;
 
-public class ScoreBoard {
+public interface ScoreBoard {
 
-    public ScoreBoard() {
-    }
+    void emptyScoreBoard();
 
-    public void emptyScoreBoard() {
-    }
+    void shouldAddMatch();
 
-    public void shouldAddMatch() {
-    }
+    void shouldRemoveMatch();
 
-    public void shouldRemoveMatch() {
-    }
-
-    public void shouldUpdateMatch() {
-    }
+    void shouldUpdateMatch();
 }
