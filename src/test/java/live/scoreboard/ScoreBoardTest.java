@@ -1,5 +1,6 @@
 package live.scoreboard;
 
+import live.scoreboard.football.ScoreBoard;
 import org.junit.jupiter.api.Test;
 
 public class ScoreBoardTest {
