@@ -45,11 +45,11 @@ public class ScoreBoardTest {
         FootballTeam homeTeam = new FootballTeam("Mexico");
         FootballTeam awayTeam = new FootballTeam("Canada");
         FootballTeam homeTeam1 = new FootballTeam("Mexico");
-        FootballTeam awayTeam2 = new FootballTeam("Canada");
+        FootballTeam awayTeam1 = new FootballTeam("Canada");
         scoreBoard = new ScoreBoardImpl();
         scoreBoard.shouldAddMatch(homeTeam, awayTeam);
         GeneralException exception = assertThrows(GeneralException.class, () ->
-                scoreBoard.shouldAddMatch(homeTeam1, awayTeam2), "Same Match cannot be added again");
+                scoreBoard.shouldAddMatch(homeTeam1, awayTeam1), "Same Match cannot be added again");
         String expectedErrorMessage = "Same Match cannot be added again";
         assertEquals(expectedErrorMessage, exception.getMessage());
     }
@@ -57,6 +57,20 @@ public class ScoreBoardTest {
     @Test
     void shouldRemoveMatch() {
         scoreBoard = new ScoreBoardImpl();
+        FootballTeam homeTeam = new FootballTeam("Mexico");
+        FootballTeam awayTeam = new FootballTeam("Canada");
+        FootballTeam homeTeam1 = new FootballTeam("Spain");
+        FootballTeam awayTeam1= new FootballTeam("Brazil");
+        scoreBoard = new ScoreBoardImpl();
+        scoreBoard.shouldAddMatch(homeTeam, awayTeam);
+        scoreBoard.shouldAddMatch(homeTeam1, awayTeam1);
+        scoreBoard.shouldRemoveMatch(homeTeam, awayTeam);
+        assertFalse(scoreBoard.getMatches().isEmpty());
+        assertTrue(scoreBoard.getMatches().stream()
+            .anyMatch(match -> "Spain".equals(match.getHomeTeam().getTeamName())));
+        assertTrue(scoreBoard.getMatches().stream()
+            .anyMatch(match -> "Brazil".equals(match.getAwayTeam().getTeamName())));
+        assertTrue(scoreBoard.getMatches().stream().count() == 1);
     }
 
     @Test

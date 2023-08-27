@@ -35,7 +35,7 @@ public class ScoreBoardImpl implements ScoreBoard {
     }
 
     @Override
-    public void shouldRemoveMatch() {
+    public void shouldRemoveMatch(FootballTeam homeTeam, FootballTeam awayTeam) {
 
     }
 
