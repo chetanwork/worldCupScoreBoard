@@ -6,9 +6,12 @@ public class Match {
 
     private final FootballTeam awayTeam;
 
+    private boolean isInProgress;
+
     public Match(FootballTeam homeTeam, FootballTeam awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
+        this.isInProgress = true;
     }
 
     public FootballTeam getHomeTeam() {
@@ -19,6 +22,11 @@ public class Match {
         return awayTeam;
     }
 
+    public boolean isInProgress() {
+        return isInProgress;
+    }
 
-
+    public void setInProgress(boolean inProgress) {
+        isInProgress = inProgress;
+    }
 }

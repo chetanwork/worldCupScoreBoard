@@ -13,6 +13,7 @@ public class ScoreBoardImpl implements ScoreBoard {
 
     private final List<Match> matches = new ArrayList();
 
+
     @Override
     public void emptyScoreBoard() {
 
@@ -30,23 +31,36 @@ public class ScoreBoardImpl implements ScoreBoard {
 
     private boolean isExistingMatch(Match newMatch) {
         return matches.stream()
+            .filter(Match::isInProgress)
             .anyMatch(existingMatch ->
-            existingMatch.getHomeTeam().getTeamName().equals(newMatch.getHomeTeam().getTeamName()) &&
+            existingMatch.getHomeTeam().getTeamName().equals(newMatch.getHomeTeam().getTeamName()) ||
             existingMatch.getAwayTeam().getTeamName().equals(newMatch.getAwayTeam().getTeamName()));
     }
 
     @Override
     public void shouldRemoveMatch(FootballTeam homeTeam, FootballTeam awayTeam) {
-            matches.removeIf(existingMatch ->
-                existingMatch.getHomeTeam().getTeamName().equals(homeTeam.getTeamName()) &&
-                    existingMatch.getAwayTeam().getTeamName().equals(awayTeam.getTeamName()));
+        Match checkToRemoveMatch = new Match(homeTeam, awayTeam);
+        Optional<Match> checkAndRemoveMatch = matches.stream()
+            .filter(Match::isInProgress)
+            .filter(existingMatch ->
+              existingMatch.getHomeTeam().getTeamName().equals(checkToRemoveMatch.getHomeTeam().getTeamName()) &&
+              existingMatch.getAwayTeam().getTeamName().equals(checkToRemoveMatch.getAwayTeam().getTeamName()))
+              .findFirst();
+        if(checkAndRemoveMatch.isPresent()) {
+            Match toBeRemoved = checkAndRemoveMatch.get();
+            toBeRemoved.setInProgress(false);
+        } else {
+            throw new GeneralException("Match Not found to be removed from ScoreBoard");
+        }
     }
 
     @Override
     public void shouldUpdateScore(FootballTeam homeTeam, FootballTeam awayTeam,
                                   int homeTeamScore, int awayTeamScore) {
         checkForNegativeScore(homeTeamScore, awayTeamScore);
-        Optional<Match> scoreUpdate = matches.stream().filter(existingMatch ->
+        Optional<Match> scoreUpdate = matches.stream()
+            .filter(Match::isInProgress)
+            .filter(existingMatch ->
                 existingMatch.getHomeTeam().getTeamName().equals(homeTeam.getTeamName()) &&
                 existingMatch.getAwayTeam().getTeamName().equals(awayTeam.getTeamName()))
                 .findFirst();
