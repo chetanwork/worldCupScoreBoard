@@ -43,8 +43,30 @@ public class ScoreBoardImpl implements ScoreBoard {
     }
 
     @Override
-    public void shouldUpdateMatch() {
+    public void shouldUpdateScore(FootballTeam homeTeam, FootballTeam awayTeam,
+                                  int homeTeamScore, int awayTeamScore) {
+        checkForNegativeScore(homeTeamScore, awayTeamScore);
+        Optional<Match> scoreUpdate = matches.stream().filter(existingMatch ->
+                existingMatch.getHomeTeam().getTeamName().equals(homeTeam.getTeamName()) &&
+                existingMatch.getAwayTeam().getTeamName().equals(awayTeam.getTeamName()))
+                .findFirst();
+        System.out.println(matches.isEmpty());
+        if(scoreUpdate.isEmpty()) {
+            throw new GeneralException("Match Not Found To Update Score");
+        }
+        System.out.println("outside " + matches.get(0).getAwayTeam());
+        Match getMatch = scoreUpdate.get();
+        FootballTeam home = getMatch.getHomeTeam();
+        FootballTeam away = getMatch.getAwayTeam();
+        home.setScore(getMatch.getHomeTeam().getScore() + homeTeamScore);
+        away.setScore(getMatch.getAwayTeam().getScore() + awayTeamScore);
+    }
 
+    private void checkForNegativeScore(int homeTeamScore, int awayTeamScore) {
+        if(homeTeamScore < 0 || awayTeamScore < 0 ) {
+            throw new GeneralException(
+                "Negative Score cannot be update");
+        }
     }
 
     public List<Match> getMatches() {

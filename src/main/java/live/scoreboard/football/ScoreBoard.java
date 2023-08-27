@@ -10,7 +10,7 @@ public interface ScoreBoard {
 
     void shouldRemoveMatch(FootballTeam homeTeam, FootballTeam awayTeam);
 
-    void shouldUpdateMatch();
+    void shouldUpdateScore(FootballTeam homeTeam, FootballTeam awayTeam, int homeScore, int awayScore);
 
     List<Match> getMatches();
 }
