@@ -41,10 +41,10 @@ public class ScoreBoardTest {
     }
 
     @Test
-    void notAddSameMatchAgain() {
+    void notAddSameMatchAgainWhenInProgress() {
         FootballTeam homeTeam = new FootballTeam("Mexico");
         FootballTeam awayTeam = new FootballTeam("Canada");
-        FootballTeam homeTeam1 = new FootballTeam("Mexico");
+        FootballTeam homeTeam1 = new FootballTeam("Delhi");
         FootballTeam awayTeam1 = new FootballTeam("Canada");
         scoreBoard = new ScoreBoardImpl();
         scoreBoard.shouldAddMatch(homeTeam, awayTeam);
@@ -65,12 +65,31 @@ public class ScoreBoardTest {
         scoreBoard.shouldAddMatch(homeTeam, awayTeam);
         scoreBoard.shouldAddMatch(homeTeam1, awayTeam1);
         scoreBoard.shouldRemoveMatch(homeTeam, awayTeam);
-        assertFalse(scoreBoard.getMatches().isEmpty());
         assertTrue(scoreBoard.getMatches().stream()
+            .filter(Match::isInProgress)
             .anyMatch(match -> "Spain".equals(match.getHomeTeam().getTeamName())));
         assertTrue(scoreBoard.getMatches().stream()
+            .filter(Match::isInProgress)
             .anyMatch(match -> "Brazil".equals(match.getAwayTeam().getTeamName())));
-        assertTrue(scoreBoard.getMatches().stream().count() == 1);
+        assertTrue(scoreBoard.getMatches().stream().filter(Match::isInProgress).count() == 1);
+    }
+
+    @Test
+    void shouldThrowErrorToRemoveInActiveMatch() {
+        scoreBoard = new ScoreBoardImpl();
+        FootballTeam homeTeam = new FootballTeam("Mexico");
+        FootballTeam awayTeam = new FootballTeam("Canada");
+        FootballTeam homeTeam1 = new FootballTeam("Spain");
+        FootballTeam awayTeam1= new FootballTeam("Brazil");
+        scoreBoard = new ScoreBoardImpl();
+        scoreBoard.shouldAddMatch(homeTeam, awayTeam);
+        scoreBoard.shouldAddMatch(homeTeam1, awayTeam1);
+        Match setDeActive = scoreBoard.getMatches().get(1);
+        setDeActive.setInProgress(false);
+        GeneralException exception = assertThrows(GeneralException.class, () ->
+            scoreBoard.shouldRemoveMatch(homeTeam1, awayTeam1));
+        String expectedErrorMessage = "Match Not found to be removed from ScoreBoard";
+        assertEquals(expectedErrorMessage, exception.getMessage());
     }
 
     @Test
@@ -90,13 +109,13 @@ public class ScoreBoardTest {
         FootballTeam awayTeam = new FootballTeam("Canada");
         scoreBoard.shouldAddMatch(homeTeam, awayTeam);
         GeneralException exception = assertThrows(GeneralException.class, () ->
-            scoreBoard.shouldUpdateScore(homeTeam, awayTeam, -2, 1), "Negative Score cannot be update");
+            scoreBoard.shouldUpdateScore(homeTeam, awayTeam, -2, 1));
         String expectedErrorMessage = "Negative Score cannot be update";
         assertEquals(expectedErrorMessage, exception.getMessage());
     }
 
     @Test
-    void shouldUpdateMatchScore() {
+    void shouldUpdateCorrectMatchScore() {
         scoreBoard = new ScoreBoardImpl();
         FootballTeam homeTeam = new FootballTeam("Mexico");
         FootballTeam awayTeam = new FootballTeam("Canada");
@@ -116,7 +135,7 @@ public class ScoreBoardTest {
         scoreBoard.shouldAddMatch(homeTeam, awayTeam);
         scoreBoard.shouldUpdateScore(homeTeam, awayTeam, 1,0);
         GeneralException exception = assertThrows(GeneralException.class, () ->
-            scoreBoard.shouldUpdateScore(homeTeam1, awayTeam1, 1,2), "Match Not Found To Update Score");
+            scoreBoard.shouldUpdateScore(homeTeam1, awayTeam1, 1,2));
         String expectedErrorMessage = "Match Not Found To Update Score";
         assertEquals(expectedErrorMessage, exception.getMessage());
     }
