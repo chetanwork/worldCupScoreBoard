@@ -7,6 +7,7 @@ import live.scoreboard.football.ScoreBoard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ScoreBoardImpl implements ScoreBoard {
 
@@ -36,7 +37,9 @@ public class ScoreBoardImpl implements ScoreBoard {
 
     @Override
     public void shouldRemoveMatch(FootballTeam homeTeam, FootballTeam awayTeam) {
-
+            matches.removeIf(existingMatch ->
+                existingMatch.getHomeTeam().getTeamName().equals(homeTeam.getTeamName()) &&
+                    existingMatch.getAwayTeam().getTeamName().equals(awayTeam.getTeamName()));
     }
 
     @Override
