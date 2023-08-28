@@ -11,10 +11,11 @@ public class ScoreBoardImpl implements ScoreBoard {
 
     private final List<Match> matches = new ArrayList();
 
-
     @Override
     public void emptyScoreBoard() {
-
+        if(matches.isEmpty() || !matches.stream().anyMatch(matches -> matches.isInProgress())) {
+            throw new GeneralException("No Match is in progress currently, please check later");
+        }
     }
 
     @Override
