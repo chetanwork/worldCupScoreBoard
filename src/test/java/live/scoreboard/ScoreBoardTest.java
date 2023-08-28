@@ -18,6 +18,13 @@ public class ScoreBoardTest {
     void emptyScoreBoard() {
         scoreBoard = new ScoreBoardImpl();
         assertTrue(scoreBoard.getMatches().isEmpty());
+        FootballTeam homeTeam = new FootballTeam("Uruguay");
+        FootballTeam awayTeam = new FootballTeam("Italy");
+        scoreBoard.shouldAddMatch(homeTeam, awayTeam);
+        scoreBoard.shouldRemoveMatch(homeTeam, awayTeam);
+        GeneralException exception = assertThrows(GeneralException.class, () -> scoreBoard.emptyScoreBoard());
+        String expectedErrorMessage = "No Match is in progress currently, please check later";
+        assertEquals(expectedErrorMessage, exception.getMessage());
     }
 
     @Test
