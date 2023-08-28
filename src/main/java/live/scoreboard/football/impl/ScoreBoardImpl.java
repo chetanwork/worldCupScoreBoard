@@ -5,9 +5,7 @@ import live.scoreboard.football.FootballTeam;
 import live.scoreboard.football.Match;
 import live.scoreboard.football.ScoreBoard;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ScoreBoardImpl implements ScoreBoard {
 
@@ -22,7 +20,7 @@ public class ScoreBoardImpl implements ScoreBoard {
     @Override
     public void shouldAddMatch(FootballTeam homeTeam, FootballTeam awayTeam) throws GeneralException {
         Match match = new Match(homeTeam, awayTeam);
-        System.out.println(!matches.isEmpty());
+        //System.out.println(!matches.isEmpty());
         if(isExistingMatch(match)) {
             throw new GeneralException("Same Match cannot be added again");
         }
@@ -64,11 +62,11 @@ public class ScoreBoardImpl implements ScoreBoard {
                 existingMatch.getHomeTeam().getTeamName().equals(homeTeam.getTeamName()) &&
                 existingMatch.getAwayTeam().getTeamName().equals(awayTeam.getTeamName()))
                 .findFirst();
-        System.out.println(matches.isEmpty());
+        //System.out.println(matches.isEmpty());
         if(scoreUpdate.isEmpty()) {
             throw new GeneralException("Match Not Found To Update Score");
         }
-        System.out.println("outside " + matches.get(0).getAwayTeam());
+        //System.out.println("outside " + matches.get(0).getAwayTeam());
         Match getMatch = scoreUpdate.get();
         FootballTeam home = getMatch.getHomeTeam();
         FootballTeam away = getMatch.getAwayTeam();
@@ -80,6 +78,19 @@ public class ScoreBoardImpl implements ScoreBoard {
         if(homeTeamScore < 0 || awayTeamScore < 0 ) {
             throw new GeneralException(
                 "Negative Score cannot be update");
+        }
+    }
+
+    @Override
+    public List<Match> shouldOrderedMatches() {
+        if(!matches.isEmpty() && matches.stream().anyMatch(matches -> matches.isInProgress())) {
+            return matches.stream()
+                .filter(Match::isInProgress)
+                .sorted(Comparator.comparing(Match::getScore)
+                    .thenComparing(Match::getStartTimeOfMatch).reversed()).toList();
+        } else {
+            throw new GeneralException(
+                "No Match is progress right now.");
         }
     }
 

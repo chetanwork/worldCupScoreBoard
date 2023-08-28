@@ -13,4 +13,6 @@ public interface ScoreBoard {
     void shouldUpdateScore(FootballTeam homeTeam, FootballTeam awayTeam, int homeScore, int awayScore);
 
     List<Match> getMatches();
+
+    List<Match> shouldOrderedMatches();
 }

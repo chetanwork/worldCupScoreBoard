@@ -1,4 +1,5 @@
 package live.scoreboard.football;
+import java.time.LocalDateTime;
 
 public class Match {
 
@@ -8,10 +9,13 @@ public class Match {
 
     private boolean isInProgress;
 
+    private LocalDateTime startTimeOfMatch;
+
     public Match(FootballTeam homeTeam, FootballTeam awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.isInProgress = true;
+        this.startTimeOfMatch = LocalDateTime.now();
     }
 
     public FootballTeam getHomeTeam() {
@@ -28,5 +32,13 @@ public class Match {
 
     public void setInProgress(boolean inProgress) {
         isInProgress = inProgress;
+    }
+
+    public LocalDateTime getStartTimeOfMatch() {
+        return startTimeOfMatch;
+    }
+
+    public int getScore() {
+        return homeTeam.getScore() + awayTeam.getScore();
     }
 }
