@@ -21,7 +21,6 @@ public class ScoreBoardImpl implements ScoreBoard {
     @Override
     public void shouldAddMatch(FootballTeam homeTeam, FootballTeam awayTeam) throws GeneralException {
         Match match = new Match(homeTeam, awayTeam);
-        //System.out.println(!matches.isEmpty());
         if(isExistingMatch(match)) {
             throw new GeneralException("Same Match cannot be added again");
         }
@@ -63,11 +62,9 @@ public class ScoreBoardImpl implements ScoreBoard {
                 existingMatch.getHomeTeam().getTeamName().equals(homeTeam.getTeamName()) &&
                 existingMatch.getAwayTeam().getTeamName().equals(awayTeam.getTeamName()))
                 .findFirst();
-        //System.out.println(matches.isEmpty());
         if(scoreUpdate.isEmpty()) {
             throw new GeneralException("Match Not Found To Update Score");
         }
-        //System.out.println("outside " + matches.get(0).getAwayTeam());
         Match getMatch = scoreUpdate.get();
         FootballTeam home = getMatch.getHomeTeam();
         FootballTeam away = getMatch.getAwayTeam();
@@ -77,8 +74,7 @@ public class ScoreBoardImpl implements ScoreBoard {
 
     private void checkForNegativeScore(int homeTeamScore, int awayTeamScore) {
         if(homeTeamScore < 0 || awayTeamScore < 0 ) {
-            throw new GeneralException(
-                "Negative Score cannot be update");
+            throw new GeneralException("Negative Score cannot be update");
         }
     }
 
@@ -90,8 +86,7 @@ public class ScoreBoardImpl implements ScoreBoard {
                 .sorted(Comparator.comparing(Match::getScore)
                     .thenComparing(Match::getStartTimeOfMatch).reversed()).toList();
         } else {
-            throw new GeneralException(
-                "No Match is progress right now.");
+            throw new GeneralException("No Match is progress right now.");
         }
     }
 
