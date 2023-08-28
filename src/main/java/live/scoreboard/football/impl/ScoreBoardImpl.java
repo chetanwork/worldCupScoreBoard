@@ -11,6 +11,9 @@ public class ScoreBoardImpl implements ScoreBoard {
 
     private final List<Match> matches = new ArrayList();
 
+    /**
+     * check if the scoreboard is empty or not and return the message
+     */
     @Override
     public void emptyScoreBoard() {
         if(matches.isEmpty() || !matches.stream().anyMatch(matches -> matches.isInProgress())) {
@@ -18,6 +21,12 @@ public class ScoreBoardImpl implements ScoreBoard {
         }
     }
 
+    /**
+     * This method add the match to scoreboard.
+     *
+     * @param homeTeam Team one going to play match
+     * @param awayTeam Team two going to play match
+     */
     @Override
     public void shouldAddMatch(FootballTeam homeTeam, FootballTeam awayTeam) throws GeneralException {
         Match match = new Match(homeTeam, awayTeam);
@@ -35,6 +44,12 @@ public class ScoreBoardImpl implements ScoreBoard {
             existingMatch.getAwayTeam().getTeamName().equals(newMatch.getAwayTeam().getTeamName()));
     }
 
+    /**
+     * Remove the match from scoreboard while changing the status.
+     *
+     * @param homeTeam Team one going to play match
+     * @param awayTeam Team two going to play match
+     */
     @Override
     public void shouldRemoveMatch(FootballTeam homeTeam, FootballTeam awayTeam) {
         Match checkToRemoveMatch = new Match(homeTeam, awayTeam);
@@ -52,6 +67,14 @@ public class ScoreBoardImpl implements ScoreBoard {
         }
     }
 
+    /**
+     * Update the score of the given teams.
+     *
+     * @param homeTeam Team one going to play match
+     * @param awayTeam Team two going to play match
+     * @param homeTeamScore hometeam current score needs to be updated
+     * @param awayTeamScore awayteam current score needs to be updated
+     */
     @Override
     public void shouldUpdateScore(FootballTeam homeTeam, FootballTeam awayTeam,
                                   int homeTeamScore, int awayTeamScore) {
@@ -78,6 +101,10 @@ public class ScoreBoardImpl implements ScoreBoard {
         }
     }
 
+    /**
+     * Order the ongoing matches according to score and start time of the match.
+     *
+     */
     @Override
     public List<Match> shouldOrderedMatches() {
         if(!matches.isEmpty() && matches.stream().anyMatch(matches -> matches.isInProgress())) {
@@ -90,6 +117,10 @@ public class ScoreBoardImpl implements ScoreBoard {
         }
     }
 
+    /**
+     * Return the matches.
+     *
+     */
     public List<Match> getMatches() {
         return matches;
     }
