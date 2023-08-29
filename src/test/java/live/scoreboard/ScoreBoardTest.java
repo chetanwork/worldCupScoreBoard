@@ -23,7 +23,7 @@ public class ScoreBoardTest {
 
     @Test
     @DisplayName("Test when scoreboard is empty or having no in progress match")
-    void emptyScoreBoard() {
+    void checkScoreBoard() {
         //then
         assertTrue(scoreBoard.getMatches().isEmpty());
         //given
@@ -33,7 +33,7 @@ public class ScoreBoardTest {
         scoreBoard.shouldAddMatch(homeTeam, awayTeam);
         scoreBoard.shouldRemoveMatch(homeTeam, awayTeam);
         //then
-        GeneralException exception = assertThrows(GeneralException.class, () -> scoreBoard.emptyScoreBoard());
+        GeneralException exception = assertThrows(GeneralException.class, () -> scoreBoard.checkScoreBoard());
         String expectedErrorMessage = "No Match is in progress currently, please check later";
         assertEquals(expectedErrorMessage, exception.getMessage());
     }

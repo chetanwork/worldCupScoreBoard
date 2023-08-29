@@ -15,7 +15,7 @@ public class ScoreBoardImpl implements ScoreBoard {
      * check if the scoreboard is empty or not and return the message
      */
     @Override
-    public void emptyScoreBoard() {
+    public void checkScoreBoard() {
         if(matches.isEmpty() || !matches.stream().anyMatch(matches -> matches.isInProgress())) {
             throw new GeneralException("No Match is in progress currently, please check later");
         }

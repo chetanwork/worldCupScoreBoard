@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ScoreBoard {
 
-    void emptyScoreBoard();
+    void checkScoreBoard();
 
     void shouldAddMatch(FootballTeam homeTeam, FootballTeam awayTeam);
 
